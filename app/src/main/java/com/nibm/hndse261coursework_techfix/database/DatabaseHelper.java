@@ -16,13 +16,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE Customer (" +
-                "customer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        db.execSQL("CREATE TABLE User (" +
+                "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT NOT NULL, " +
                 "email TEXT UNIQUE NOT NULL, " +
                 "phone TEXT, " +
                 "password TEXT NOT NULL, " +
-                "address TEXT)");
+                "address TEXT," +
+                "type TEXT)");
 
         db.execSQL("CREATE TABLE Branch (" +
                 "branch_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -58,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE Appointment (" +
                 "appointment_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "customer_id INTEGER NOT NULL, " +
+                "user_id INTEGER NOT NULL, " +
                 "branch_id INTEGER NOT NULL, " +
                 "service_id INTEGER NOT NULL, " +
                 "technician_id INTEGER, " +
@@ -67,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "appointment_date TEXT NOT NULL, " +
                 "status TEXT NOT NULL DEFAULT 'Pending', " +
                 "created_at TEXT, " +
-                "FOREIGN KEY (customer_id) REFERENCES Customer(customer_id), " +
+                "FOREIGN KEY (user_id) REFERENCES User(user_id), " +
                 "FOREIGN KEY (branch_id) REFERENCES Branch(branch_id), " +
                 "FOREIGN KEY (service_id) REFERENCES RepairService(service_id), " +
                 "FOREIGN KEY (technician_id) REFERENCES Technician(technician_id))");
@@ -75,14 +76,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Delete all the tables...
+        // Delete all the tables if they exist...
         db.execSQL("DROP TABLE IF EXISTS RepairImage");
         db.execSQL("DROP TABLE IF EXISTS Appointment");
         db.execSQL("DROP TABLE IF EXISTS Technician");
         db.execSQL("DROP TABLE IF EXISTS RepairService");
         db.execSQL("DROP TABLE IF EXISTS DeviceCategory");
         db.execSQL("DROP TABLE IF EXISTS Branch");
-        db.execSQL("DROP TABLE IF EXISTS Customer");
+        db.execSQL("DROP TABLE IF EXISTS User");
         //... and then just run the onCreate function again! idk why we weren't given this
         // approach in the classes, so easy... or maybe i missed it??
         onCreate(db);
