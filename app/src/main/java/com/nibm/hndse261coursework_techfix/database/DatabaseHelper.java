@@ -1,6 +1,8 @@
 package com.nibm.hndse261coursework_techfix.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -20,16 +22,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT NOT NULL, " +
                 "email TEXT UNIQUE NOT NULL, " +
-                "phone TEXT, " +
+                "phone TEXT NOT NULL, " +
                 "password TEXT NOT NULL, " +
-                "address TEXT," +
-                "type TEXT)");
+                "address TEXT NOT NULL," +
+                "type TEXT NOT NULL)");
 
         db.execSQL("CREATE TABLE Branch (" +
                 "branch_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "branch_name TEXT NOT NULL, " +
                 "address TEXT NOT NULL, " +
-                "phone TEXT, " +
+                "phone TEXT NOT NULL, " +
                 "latitude REAL NOT NULL, " +
                 "longitude REAL NOT NULL)");
 
@@ -77,7 +79,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Delete all the tables if they exist...
-        db.execSQL("DROP TABLE IF EXISTS RepairImage");
         db.execSQL("DROP TABLE IF EXISTS Appointment");
         db.execSQL("DROP TABLE IF EXISTS Technician");
         db.execSQL("DROP TABLE IF EXISTS RepairService");
@@ -88,4 +89,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // approach in the classes, so easy... or maybe i missed it??
         onCreate(db);
     }
+
+    // USER OPERATIONS
+    // return type here is long cuz db.insert returns long. its for error checking
+    public long insertUser(SQLiteDatabase db, String name, String email,
+                           String phone, String password, String address,
+                           String type) {
+
+        ContentValues userRecord = new ContentValues();
+
+        userRecord.put("name", name);
+        userRecord.put("email", email);
+        userRecord.put("phone", phone);
+        userRecord.put("password", password);
+        userRecord.put("address", address);
+        userRecord.put("type", type);
+
+        return db.insert("User", null, userRecord);
+    }
+    public void updateUser(SQLiteDatabase db, int userId,
+                           String name, String email,
+                           String phone, String address) {
+
+        ContentValues userRecord = new ContentValues();
+
+        userRecord.put("name", name);
+        userRecord.put("email", email);
+        userRecord.put("phone", phone);
+        userRecord.put("address", address);
+
+        db.update(
+                "User",
+                userRecord,
+                "user_id = ?",
+                new String[]{String.valueOf(userId)}
+        );
+    }
+    public void deleteUser(SQLiteDatabase db, int userId) {
+
+        db.delete(
+                "User",
+                "user_id = ?",
+                new String[]{String.valueOf(userId)}
+        );
+    }
+    public Cursor loginUser(SQLiteDatabase db, String email, String password) {
+
+        return db.rawQuery(
+                "SELECT * FROM User WHERE email = ? AND password = ?",
+                new String[]{email, password}
+        );
+    }
+
 }

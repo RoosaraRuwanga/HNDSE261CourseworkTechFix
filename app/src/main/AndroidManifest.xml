@@ -25,6 +25,15 @@
             android:name=".activities.RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.CustomerDashboardActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.CompanyDashboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HNDSE261CourseworkTechFix"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

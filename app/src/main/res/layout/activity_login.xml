@@ -76,11 +76,13 @@
         />
 
     <Button
+        android:layout_marginTop="40dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="25dp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/edit_password"
         android:id="@+id/btn_login"/>
 
     <TextView
@@ -98,7 +100,7 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:textSize="25dp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/txt_register"
         android:id="@+id/btn_register"/>
 </RelativeLayout>
