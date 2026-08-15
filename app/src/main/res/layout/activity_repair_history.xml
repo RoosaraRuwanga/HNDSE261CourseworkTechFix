@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".activities.RepairHistoryActivity">
+
+    <!-- TITLE -->
+    <TextView
+        android:id="@+id/tvRepairTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Repair Status &amp; History"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- REPAIR 1 -->
+    <TextView
+        android:id="@+id/tvRepairHistory1"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_below="@id/tvRepairTitle"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Repair ID\nRepair Card Name\nRepair Status"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- REPAIR 2 -->
+    <TextView
+        android:id="@+id/tvRepairHistory2"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_below="@id/tvRepairHistory1"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Repair ID\nRepair Card Name\nRepair Status"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- REPAIR 3 -->
+    <TextView
+        android:id="@+id/tvRepairHistory3"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_below="@id/tvRepairHistory2"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Repair ID\nRepair Card Name\nRepair Status"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- REPAIR 4 -->
+    <TextView
+        android:id="@+id/tvRepairHistory4"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_below="@id/tvRepairHistory3"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Repair ID\nRepair Card Name\nRepair Status"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- BACK -->
+    <Button
+        android:id="@+id/btnRepairBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="Back" />
+
+</RelativeLayout>

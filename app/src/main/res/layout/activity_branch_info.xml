@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".activities.BranchInfoActivity">
+
+    <!-- TITLE -->
+    <TextView
+        android:id="@+id/tvBranchTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Our Branches"
+        android:textSize="18sp"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- COLOMBO IMAGE -->
+    <ImageView
+        android:id="@+id/imgColombo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/tvBranchTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:contentDescription="Colombo Branch"
+        android:scaleType="centerCrop" />
+
+    <!-- WATTALA IMAGE -->
+    <ImageView
+        android:id="@+id/imgWattala"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/tvBranchTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:contentDescription="Wattala Branch"
+        android:scaleType="centerCrop" />
+
+    <!-- COLOMBO LABEL -->
+    <TextView
+        android:id="@+id/tvColombo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgColombo"
+        android:layout_alignStart="@id/imgColombo"
+        android:layout_alignEnd="@id/imgColombo"
+        android:gravity="center"
+        android:text="Colombo"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- WATTALA LABEL -->
+    <TextView
+        android:id="@+id/tvWattala"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgWattala"
+        android:layout_alignStart="@id/imgWattala"
+        android:layout_alignEnd="@id/imgWattala"
+        android:gravity="center"
+        android:text="Wattala"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- CLOSEST BRANCH TEXT -->
+    <TextView
+        android:id="@+id/tvClosestLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvColombo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:text="The closest branch to you is:"
+        android:textSize="16sp"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- CLOSEST BRANCH -->
+    <TextView
+        android:id="@+id/tvClosestBranch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvClosestLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Finding branch..."
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <!-- BACK -->
+    <Button
+        android:id="@+id/btnBranchBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="Back" />
+
+</RelativeLayout>
