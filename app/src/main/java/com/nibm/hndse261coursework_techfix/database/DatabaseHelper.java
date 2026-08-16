@@ -133,6 +133,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(userId)}
         );
     }
+    public Cursor getAllUsers(SQLiteDatabase db) {
+
+        return db.rawQuery(
+                "SELECT * FROM User",
+                null
+        );
+    }
     public Cursor loginUser(SQLiteDatabase db, String email, String password) {
 
         return db.rawQuery(
