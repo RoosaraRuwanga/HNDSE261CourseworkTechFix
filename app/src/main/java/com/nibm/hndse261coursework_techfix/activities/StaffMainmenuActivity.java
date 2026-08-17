@@ -43,7 +43,7 @@ public class StaffMainmenuActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     StaffMainmenuActivity.this,
-                    Branchinfo.class
+                    BranchInfoActivity.class
             );
 
             startActivity(intent);
