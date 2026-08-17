@@ -66,6 +66,9 @@
             android:name=".activities.RegisterStaffActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.RepairsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

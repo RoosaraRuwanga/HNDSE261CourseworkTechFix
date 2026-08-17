@@ -159,5 +159,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{email, password}
         );
     }
+    public Cursor getCurrentAppointments(SQLiteDatabase db) {
+        return db.rawQuery(
+                "SELECT " +
+                        "Appointment.appointment_id, " +
+                        "User.name AS customer_name, " +
+                        "Branch.branch_name, " +
+                        "RepairService.service_name, " +
+                        "Technician.name AS technician_name, " +
+                        "Appointment.device_model, " +
+                        "Appointment.problem_description, " +
+                        "Appointment.appointment_date, " +
+                        "Appointment.status " +
+                        "FROM Appointment " +
+                        "INNER JOIN User " +
+                        "ON Appointment.user_id = User.user_id " +
+                        "INNER JOIN Branch " +
+                        "ON Appointment.branch_id = Branch.branch_id " +
+                        "INNER JOIN RepairService " +
+                        "ON Appointment.service_id = RepairService.service_id " +
+                        "LEFT JOIN Technician " +
+                        "ON Appointment.technician_id = Technician.technician_id " +
+                        "WHERE Appointment.status != 'Completed' " +
+                        "ORDER BY Appointment.appointment_date ASC",
+                null
+        );
+    }
 
 }
