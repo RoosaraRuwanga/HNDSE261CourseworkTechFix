@@ -140,6 +140,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null
         );
     }
+    public Cursor searchUsers(SQLiteDatabase db, String searchText) {
+
+        return db.rawQuery(
+                "SELECT * FROM User WHERE name LIKE ? OR email LIKE ? OR phone LIKE ? OR type LIKE ?",
+                new String[]{
+                        "%" + searchText + "%",
+                        "%" + searchText + "%",
+                        "%" + searchText + "%",
+                        "%" + searchText + "%"
+                }
+        );
+    }
     public Cursor loginUser(SQLiteDatabase db, String email, String password) {
 
         return db.rawQuery(

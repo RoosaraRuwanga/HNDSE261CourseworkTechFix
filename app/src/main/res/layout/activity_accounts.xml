@@ -9,7 +9,7 @@
     tools:context=".activities.AccountsActivity">
 
     <Button
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Add Staff Account"
@@ -19,32 +19,22 @@
 
     <Button
         android:layout_marginTop="30dp"
-        android:layout_width="250dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="View Accounts"
+        android:text="View and Delete Accounts"
         android:textSize="25sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/btn_addstaffaccount"
         android:id="@+id/btn_viewaccounts"/>
 
     <Button
-        android:layout_marginTop="30dp"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Delete Accounts"
-        android:textSize="25sp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_viewaccounts"
-        android:id="@+id/btn_deleteaccounts"/>
-
-    <Button
-        android:layout_marginTop="370dp"
+        android:layout_marginTop="450dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Back"
         android:textSize="25sp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_deleteaccounts"
+        android:layout_below="@id/btn_viewaccounts"
         android:id="@+id/btn_back"/>
 
 </RelativeLayout>
