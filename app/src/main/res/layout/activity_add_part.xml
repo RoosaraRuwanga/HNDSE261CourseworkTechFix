@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".activities.AddPartActivity">
+
+    <TextView
+        android:id="@+id/txt_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Part"
+        android:textAlignment="center"
+        android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/txt_serial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_heading"
+        android:layout_marginTop="40dp"
+        android:text="Serial Number"
+        android:textAlignment="center"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/edit_serial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_serial"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_serial"
+        android:layout_marginTop="25dp"
+        android:text="Part Name"
+        android:textAlignment="center"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_name"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/txt_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_name"
+        android:layout_marginTop="25dp"
+        android:text="Price"
+        android:textAlignment="center"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/edit_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_price"
+        android:layout_marginTop="10dp"
+        android:inputType="numberDecimal"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_price"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:text="Add Part"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_add"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Back"
+        android:textSize="25sp" />
+
+</RelativeLayout>

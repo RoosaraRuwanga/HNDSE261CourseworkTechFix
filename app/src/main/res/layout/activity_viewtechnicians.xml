@@ -11,24 +11,15 @@
         android:id="@+id/txt_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Current Repair Orders"
+        android:text="Technicians"
         android:textAlignment="center"
         android:textSize="30sp" />
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Add Repair"
-        android:textSize="15sp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/txt_heading"
-        android:id="@+id/btn_add_repair"/>
 
     <ScrollView
         android:id="@+id/scroll_repairs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/btn_add_repair"
+        android:layout_below="@id/txt_heading"
         android:layout_above="@id/btn_back"
         android:layout_marginTop="20dp">
 

@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.nibm.hndse261coursework_techfix.R;
 import com.nibm.hndse261coursework_techfix.database.DatabaseHelper;
+import android.database.Cursor;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.Spinner;
+import java.util.ArrayList;
 
 public class RegisterStaffActivity extends AppCompatActivity {
 
@@ -19,6 +22,11 @@ public class RegisterStaffActivity extends AppCompatActivity {
     Button btnBack;
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
+    CheckBox checkTechnician;
+    Spinner spinnerBranch;
+    EditText editSpecialisation;
+    EditText editAvailability;
+    ArrayList<Integer> branchIds = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,11 @@ public class RegisterStaffActivity extends AppCompatActivity {
         db = databaseHelper.getWritableDatabase();
         btnRegister.setOnClickListener(v -> registerStaff());
         btnBack.setOnClickListener(v -> finish());
+        checkTechnician = findViewById(R.id.check_technician);
+        spinnerBranch = findViewById(R.id.spinner_branch);
+        editSpecialisation = findViewById(R.id.edit_specialisation);
+        editAvailability = findViewById(R.id.edit_availability);
+        loadBranches();
     }
 
     private void registerStaff() {
@@ -50,12 +63,23 @@ public class RegisterStaffActivity extends AppCompatActivity {
             editPassword.requestFocus();
             return;
         }
+        if (checkTechnician.isChecked()) {
+
+            if (branchIds.size() == 0) {
+                Toast.makeText(
+                        this,
+                        "Please add a branch first.",
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
+        }
         try {
 
             long result = databaseHelper.insertUser(
                     db,
                     username,     // name
-                    username,     // email - used by current login system
+                    username,     // email
                     "",           // phone
                     password,
                     "",           // address
@@ -72,6 +96,23 @@ public class RegisterStaffActivity extends AppCompatActivity {
 
             } else {
 
+                if (checkTechnician.isChecked()) {
+                    int branchId = branchIds.get(
+                            spinnerBranch.getSelectedItemPosition()
+                    );
+                    String specialisation =
+                            editSpecialisation.getText().toString().trim();
+                    String availability =
+                            editAvailability.getText().toString().trim();
+                    databaseHelper.insertTechnician(
+                            db,
+                            branchId,
+                            username,
+                            "",
+                            specialisation,
+                            availability
+                    );
+                }
                 Toast.makeText(
                         this,
                         "Staff account created successfully",
@@ -88,6 +129,34 @@ public class RegisterStaffActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG
             ).show();
         }
+    }
+
+    private void loadBranches() {
+        ArrayList<String> branches = new ArrayList<>();
+        branchIds.clear();
+        Cursor cursor = databaseHelper.getBranchesForSpinner(db);
+        while (cursor.moveToNext()) {
+            branchIds.add(
+                    cursor.getInt(
+                            cursor.getColumnIndexOrThrow("branch_id")
+                    )
+            );
+            branches.add(
+                    cursor.getString(
+                            cursor.getColumnIndexOrThrow("branch_name")
+                    )
+            );
+        }
+        cursor.close();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                branches
+        );
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item
+        );
+        spinnerBranch.setAdapter(adapter);
     }
 
     @Override

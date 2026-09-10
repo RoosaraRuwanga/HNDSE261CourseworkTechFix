@@ -74,6 +74,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (branch_id) REFERENCES Branch(branch_id), " +
                 "FOREIGN KEY (service_id) REFERENCES RepairService(service_id), " +
                 "FOREIGN KEY (technician_id) REFERENCES Technician(technician_id))");
+
+        db.execSQL("CREATE TABLE Part (" +
+                "part_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "serial_number TEXT UNIQUE NOT NULL, " +
+                "part_name TEXT NOT NULL, " +
+                "price REAL NOT NULL)");
     }
 
     @Override
@@ -166,6 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "User.name AS customer_name, " +
                         "Branch.branch_name, " +
                         "RepairService.service_name, " +
+                        "RepairService.sample_image, " +
                         "Technician.name AS technician_name, " +
                         "Appointment.device_model, " +
                         "Appointment.problem_description, " +
@@ -183,6 +190,206 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "WHERE Appointment.status != 'Completed' " +
                         "ORDER BY Appointment.appointment_date ASC",
                 null
+        );
+    }
+
+    public void updateAppointment(
+            SQLiteDatabase db,
+            int appointmentId,
+            String deviceModel,
+            String problemDescription,
+            String appointmentDate,
+            String status) {
+        ContentValues appointmentRecord = new ContentValues();
+        appointmentRecord.put("device_model", deviceModel);
+        appointmentRecord.put("problem_description", problemDescription);
+        appointmentRecord.put("appointment_date", appointmentDate);
+        appointmentRecord.put("status", status);
+        db.update(
+                "Appointment",
+                appointmentRecord,
+                "appointment_id = ?",
+                new String[]{
+                        String.valueOf(appointmentId)
+                }
+        );
+    }
+
+    public void deleteAppointment(
+            SQLiteDatabase db,
+            int appointmentId) {
+        db.delete(
+                "Appointment",
+                "appointment_id = ?",
+                new String[]{
+                        String.valueOf(appointmentId)
+                }
+        );
+    }
+
+    public Cursor getUsersForSpinner(SQLiteDatabase db) {
+        return db.rawQuery(
+                "SELECT user_id, name FROM User",
+                null
+        );
+    }
+
+    public Cursor getBranchesForSpinner(SQLiteDatabase db) {
+        return db.rawQuery(
+                "SELECT branch_id, branch_name FROM Branch",
+                null
+        );
+    }
+
+    public Cursor getServicesForSpinner(SQLiteDatabase db) {
+        return db.rawQuery(
+                "SELECT service_id, service_name FROM RepairService",
+                null
+        );
+    }
+
+    public Cursor getTechniciansForSpinner(SQLiteDatabase db) {
+        return db.rawQuery(
+                "SELECT technician_id, name FROM Technician",
+                null
+        );
+    }
+
+    public long insertAppointment(
+            SQLiteDatabase db,
+            int userId,
+            int branchId,
+            int serviceId,
+            Integer technicianId,
+            String deviceModel,
+            String problemDescription,
+            String appointmentDate,
+            String status,
+            String createdAt) {
+        ContentValues appointmentRecord = new ContentValues();
+        appointmentRecord.put("user_id", userId);
+        appointmentRecord.put("branch_id", branchId);
+        appointmentRecord.put("service_id", serviceId);
+        if (technicianId == null) {
+            appointmentRecord.putNull("technician_id");
+        } else {
+            appointmentRecord.put("technician_id", technicianId);
+        }
+        appointmentRecord.put("device_model", deviceModel);
+        appointmentRecord.put("problem_description", problemDescription);
+        appointmentRecord.put("appointment_date", appointmentDate);
+        appointmentRecord.put("status", status);
+        appointmentRecord.put("created_at", createdAt);
+        return db.insert("Appointment", null, appointmentRecord);
+    }
+
+    public void updateServiceImage(
+            SQLiteDatabase db,
+            int serviceId,
+            byte[] image) {
+        ContentValues serviceRecord = new ContentValues();
+        serviceRecord.put("sample_image", image);
+        db.update(
+                "RepairService",
+                serviceRecord,
+                "service_id = ?",
+                new String[]{
+                        String.valueOf(serviceId)
+                }
+        );
+    }
+
+    public Cursor getAllTechnicians(SQLiteDatabase db) {
+        return db.rawQuery(
+                "SELECT Technician.technician_id, " +
+                        "Technician.name, " +
+                        "Technician.phone, " +
+                        "Technician.specialisation, " +
+                        "Technician.availability, " +
+                        "Branch.branch_name " +
+                        "FROM Technician " +
+                        "INNER JOIN Branch " +
+                        "ON Technician.branch_id = Branch.branch_id",
+                null
+        );
+    }
+
+    public void deleteTechnician(
+            SQLiteDatabase db,
+            int technicianId) {
+        ContentValues appointmentRecord =
+                new ContentValues();
+        appointmentRecord.putNull("technician_id");
+        db.update(
+                "Appointment",
+                appointmentRecord,
+                "technician_id = ?",
+                new String[]{
+                        String.valueOf(technicianId)
+                }
+        );
+        db.delete(
+                "Technician",
+                "technician_id = ?",
+                new String[]{
+                        String.valueOf(technicianId)
+                }
+        );
+    }
+
+    public long insertTechnician(
+            SQLiteDatabase db,
+            int branchId,
+            String name,
+            String phone,
+            String specialisation,
+            String availability) {
+        ContentValues technicianRecord = new ContentValues();
+        technicianRecord.put("branch_id", branchId);
+        technicianRecord.put("name", name);
+        technicianRecord.put("phone", phone);
+        technicianRecord.put("specialisation", specialisation);
+        technicianRecord.put("availability", availability);
+        return db.insert(
+                "Technician",
+                null,
+                technicianRecord
+        );
+    }
+
+    public Cursor getAllParts(SQLiteDatabase db) {
+        return db.rawQuery(
+                "SELECT * FROM Part",
+                null
+        );
+    }
+
+    public long insertPart(
+            SQLiteDatabase db,
+            String serialNumber,
+            String partName,
+            double price) {
+
+        ContentValues partRecord = new ContentValues();
+
+        partRecord.put("serial_number", serialNumber);
+        partRecord.put("part_name", partName);
+        partRecord.put("price", price);
+
+        return db.insert(
+                "Part",
+                null,
+                partRecord
+        );
+    }
+
+    public void deletePart(
+            SQLiteDatabase db,
+            int partId) {
+        db.delete(
+                "Part",
+                "part_id = ?",
+                new String[]{String.valueOf(partId)}
         );
     }
 

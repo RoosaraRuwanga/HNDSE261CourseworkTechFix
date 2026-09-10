@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -68,6 +72,15 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.RepairsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AddRepairActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ViewPartsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AddPartActivity"
             android:exported="false" />
     </application>
 

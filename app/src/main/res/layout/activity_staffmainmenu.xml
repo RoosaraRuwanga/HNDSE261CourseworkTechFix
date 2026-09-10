@@ -62,11 +62,21 @@
         android:layout_marginTop="30dp"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="Technicians and Parts"
+        android:text=" View Technicians"
         android:textSize="25dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/btn_viewbranchinfo"
-        android:id="@+id/btn_techandparts"/>
+        android:id="@+id/btn_technicians"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="View Parts"
+        android:textSize="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_technicians"
+        android:id="@+id/btn_parts"/>
 
     <Button
         android:layout_marginTop="30dp"
@@ -75,7 +85,7 @@
         android:text="Services"
         android:textSize="25dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_techandparts"
+        android:layout_below="@id/btn_parts"
         android:id="@+id/btn_services"/>
 
     <Button
@@ -89,7 +99,7 @@
         android:id="@+id/btn_repairorders"/>
 
     <Button
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Logout"
