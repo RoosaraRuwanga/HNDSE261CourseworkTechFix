@@ -12,7 +12,8 @@ public class StaffMainmenuActivity extends AppCompatActivity {
 
     Button btnViewAccounts;
     Button btnViewBranchInfo;
-    Button btnTechAndParts;
+    Button btnTechnicians;
+    Button btnParts;
     Button btnServices;
     Button btnRepairOrders;
     Button btnLogout;
@@ -24,7 +25,8 @@ public class StaffMainmenuActivity extends AppCompatActivity {
 
         btnViewAccounts = findViewById(R.id.btn_viewaccounts);
         btnViewBranchInfo = findViewById(R.id.btn_viewbranchinfo);
-        btnTechAndParts = findViewById(R.id.btn_techandparts);
+        btnTechnicians = findViewById(R.id.btn_technicians);
+        btnParts = findViewById(R.id.btn_parts);
         btnServices = findViewById(R.id.btn_services);
         btnRepairOrders = findViewById(R.id.btn_repairorders);
         btnLogout = findViewById(R.id.btn_logout);
@@ -49,13 +51,19 @@ public class StaffMainmenuActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnTechAndParts.setOnClickListener(v -> {
-
+        btnTechnicians.setOnClickListener(v -> {
             Intent intent = new Intent(
                     StaffMainmenuActivity.this,
-                    TechAndPartsActivity.class
+                    TechniciansActivity.class
             );
+            startActivity(intent);
+        });
 
+        btnParts.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    StaffMainmenuActivity.this,
+                    ViewPartsActivity.class
+            );
             startActivity(intent);
         });
 
