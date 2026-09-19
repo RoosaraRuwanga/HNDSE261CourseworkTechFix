@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(
                         LoginActivity.this,
-                        CompanyDashboardActivity.class
+                        StaffMainmenuActivity.class
                 );
 
                 intent.putExtra("user_id", userId);

@@ -82,6 +82,12 @@
         <activity
             android:name=".activities.AddPartActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.TechniciansActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ViewAccountsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

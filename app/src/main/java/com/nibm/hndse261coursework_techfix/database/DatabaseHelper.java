@@ -80,6 +80,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "serial_number TEXT UNIQUE NOT NULL, " +
                 "part_name TEXT NOT NULL, " +
                 "price REAL NOT NULL)");
+
+        ContentValues adminAccount = new ContentValues();
+
+        adminAccount.put("name", "admin");
+        adminAccount.put("email", "admin");
+        adminAccount.put("phone", "");
+        adminAccount.put("password", "admin123");
+        adminAccount.put("address", "");
+        adminAccount.put("type", "Staff");
+
+        db.insert("User", null, adminAccount);
     }
 
     @Override
