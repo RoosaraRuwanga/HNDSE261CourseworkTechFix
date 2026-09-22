@@ -18,6 +18,8 @@ public class RegisterStaffActivity extends AppCompatActivity {
 
     EditText editUsername;
     EditText editPassword;
+    EditText editEmail;
+    EditText editPhone;
     Button btnRegister;
     Button btnBack;
     DatabaseHelper databaseHelper;
@@ -34,6 +36,8 @@ public class RegisterStaffActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registerstaff);
         editUsername = findViewById(R.id.edit_username);
         editPassword = findViewById(R.id.edit_password);
+        editEmail = findViewById(R.id.edit_email);
+        editPhone = findViewById(R.id.edit_phone);
         btnRegister = findViewById(R.id.btn_register);
         btnBack = findViewById(R.id.btn_back);
         databaseHelper = new DatabaseHelper(this);
@@ -48,23 +52,32 @@ public class RegisterStaffActivity extends AppCompatActivity {
     }
 
     private void registerStaff() {
-
         String username = editUsername.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
+        String email = editEmail.getText().toString().trim();
+        String phone = editPhone.getText().toString().trim();
 
         if (username.isEmpty()) {
             editUsername.setError("Enter a username");
             editUsername.requestFocus();
             return;
         }
-
         if (password.isEmpty()) {
             editPassword.setError("Enter a password");
             editPassword.requestFocus();
             return;
         }
+        if (email.isEmpty()) {
+            editEmail.setError("Enter an email");
+            editEmail.requestFocus();
+            return;
+        }
+        if (phone.isEmpty()) {
+            editPhone.setError("Enter a phone number");
+            editPhone.requestFocus();
+            return;
+        }
         if (checkTechnician.isChecked()) {
-
             if (branchIds.size() == 0) {
                 Toast.makeText(
                         this,
@@ -75,40 +88,42 @@ public class RegisterStaffActivity extends AppCompatActivity {
             }
         }
         try {
-
             long result = databaseHelper.insertUser(
                     db,
-                    username,     // name
-                    username,     // email
-                    "",           // phone
+                    username,    // name
+                    email,       // email
+                    phone,       // phone
                     password,
-                    "",           // address
+                    "",          // address
                     "Staff"
             );
-
             if (result == -1) {
 
                 Toast.makeText(
                         this,
-                        "Could not create account. Username may already exist.",
+                        "Could not create account. Email may already exist.",
                         Toast.LENGTH_LONG
                 ).show();
-
             } else {
-
                 if (checkTechnician.isChecked()) {
+
                     int branchId = branchIds.get(
                             spinnerBranch.getSelectedItemPosition()
                     );
                     String specialisation =
-                            editSpecialisation.getText().toString().trim();
+                            editSpecialisation.getText()
+                                    .toString()
+                                    .trim();
                     String availability =
-                            editAvailability.getText().toString().trim();
+                            editAvailability.getText()
+                                    .toString()
+                                    .trim();
                     databaseHelper.insertTechnician(
                             db,
+                            (int) result,
                             branchId,
                             username,
-                            "",
+                            phone,
                             specialisation,
                             availability
                     );
@@ -118,7 +133,6 @@ public class RegisterStaffActivity extends AppCompatActivity {
                         "Staff account created successfully",
                         Toast.LENGTH_SHORT
                 ).show();
-
                 finish();
             }
         } catch (Exception e) {

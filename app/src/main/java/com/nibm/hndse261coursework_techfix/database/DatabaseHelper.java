@@ -35,6 +35,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "latitude REAL NOT NULL, " +
                 "longitude REAL NOT NULL)");
 
+        ContentValues branch1 = new ContentValues();
+        branch1.put("branch_name", "Colombo Branch");
+        branch1.put("address", "Colombo");
+        branch1.put("phone", "0112345678");
+        branch1.put("latitude", 6.9271);
+        branch1.put("longitude", 79.8612);
+        db.insert("Branch", null, branch1);
+
+        ContentValues branch2 = new ContentValues();
+        branch2.put("branch_name", "Kandy Branch");
+        branch2.put("address", "Kandy");
+        branch2.put("phone", "0812345678");
+        branch2.put("latitude", 7.2906);
+        branch2.put("longitude", 80.6337);
+        db.insert("Branch", null, branch2);
+
+        ContentValues branch3 = new ContentValues();
+        branch3.put("branch_name", "Galle Branch");
+        branch3.put("address", "Galle");
+        branch3.put("phone", "0912345678");
+        branch3.put("latitude", 6.0329);
+        branch3.put("longitude", 80.2168);
+        db.insert("Branch", null, branch3);
+
         db.execSQL("CREATE TABLE DeviceCategory (" +
                 "category_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "category_name TEXT NOT NULL, " +
@@ -52,11 +76,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE Technician (" +
                 "technician_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_id INTEGER UNIQUE NOT NULL, " +
                 "branch_id INTEGER NOT NULL, " +
                 "name TEXT NOT NULL, " +
                 "phone TEXT, " +
                 "specialisation TEXT, " +
                 "availability TEXT, " +
+                "FOREIGN KEY (user_id) REFERENCES User(user_id), " +
                 "FOREIGN KEY (branch_id) REFERENCES Branch(branch_id))");
 
         db.execSQL("CREATE TABLE Appointment (" +
@@ -313,6 +339,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getAllTechnicians(SQLiteDatabase db) {
         return db.rawQuery(
                 "SELECT Technician.technician_id, " +
+                        "Technician.user_id, " +
                         "Technician.name, " +
                         "Technician.phone, " +
                         "Technician.specialisation, " +
@@ -328,6 +355,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteTechnician(
             SQLiteDatabase db,
             int technicianId) {
+
+        Cursor cursor = db.rawQuery(
+                "SELECT user_id FROM Technician WHERE technician_id = ?",
+                new String[]{
+                        String.valueOf(technicianId)
+                }
+        );
+        int userId = -1;
+        if (cursor.moveToFirst()) {
+            userId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow("user_id")
+            );
+        }
+        cursor.close();
         ContentValues appointmentRecord =
                 new ContentValues();
         appointmentRecord.putNull("technician_id");
@@ -346,16 +387,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         String.valueOf(technicianId)
                 }
         );
+        if (userId != -1) {
+            db.delete(
+                    "User",
+                    "user_id = ?",
+                    new String[]{
+                            String.valueOf(userId)
+                    }
+            );
+        }
     }
 
     public long insertTechnician(
             SQLiteDatabase db,
+            int userId,
             int branchId,
             String name,
             String phone,
             String specialisation,
             String availability) {
-        ContentValues technicianRecord = new ContentValues();
+        ContentValues technicianRecord =
+                new ContentValues();
+        technicianRecord.put("user_id", userId);
         technicianRecord.put("branch_id", branchId);
         technicianRecord.put("name", name);
         technicianRecord.put("phone", phone);
