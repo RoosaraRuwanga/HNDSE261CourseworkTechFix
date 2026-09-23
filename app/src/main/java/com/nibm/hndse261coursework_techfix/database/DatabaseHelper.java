@@ -44,20 +44,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("Branch", null, branch1);
 
         ContentValues branch2 = new ContentValues();
-        branch2.put("branch_name", "Kandy Branch");
-        branch2.put("address", "Kandy");
+        branch2.put("branch_name", "Wattala Branch");
+        branch2.put("address", "Wattala");
         branch2.put("phone", "0812345678");
         branch2.put("latitude", 7.2906);
         branch2.put("longitude", 80.6337);
         db.insert("Branch", null, branch2);
-
-        ContentValues branch3 = new ContentValues();
-        branch3.put("branch_name", "Galle Branch");
-        branch3.put("address", "Galle");
-        branch3.put("phone", "0912345678");
-        branch3.put("latitude", 6.0329);
-        branch3.put("longitude", 80.2168);
-        db.insert("Branch", null, branch3);
 
         db.execSQL("CREATE TABLE DeviceCategory (" +
                 "category_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -73,6 +65,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "estimated_days INTEGER, " +
                 "sample_image BLOB, " +
                 "FOREIGN KEY (category_id) REFERENCES DeviceCategory(category_id))");
+
+        ContentValues service1 = new ContentValues();
+        service1.put("category_id", 1);
+        service1.put("service_name", "Screen Replacement");
+        service1.put("description", "Replacement of damaged or cracked mobile phone screens");
+        service1.put("price", 15000.00);
+        service1.put("estimated_days", 2);
+        db.insert("RepairService", null, service1);
+
+        ContentValues service2 = new ContentValues();
+        service2.put("category_id", 1);
+        service2.put("service_name", "Battery Replacement");
+        service2.put("description", "Replacement of faulty or worn-out mobile phone batteries");
+        service2.put("price", 7500.00);
+        service2.put("estimated_days", 1);
+        db.insert("RepairService", null, service2);
+
+        ContentValues service3 = new ContentValues();
+        service3.put("category_id", 1);
+        service3.put("service_name", "Charging Port Repair");
+        service3.put("description", "Repair or replacement of damaged charging ports");
+        service3.put("price", 6000.00);
+        service3.put("estimated_days", 2);
+        db.insert("RepairService", null, service3);
+
+        ContentValues service4 = new ContentValues();
+        service4.put("category_id", 2);
+        service4.put("service_name", "Laptop Keyboard Replacement");
+        service4.put("description", "Replacement of damaged laptop keyboard");
+        service4.put("price", 12000.00);
+        service4.put("estimated_days", 3);
+        db.insert("RepairService", null, service4);
+
+        ContentValues service5 = new ContentValues();
+        service5.put("category_id", 2);
+        service5.put("service_name", "Laptop Battery Replacement");
+        service5.put("description", "Replacement of faulty laptop battery");
+        service5.put("price", 18000.00);
+        service5.put("estimated_days", 2);
+        db.insert("RepairService", null, service5);
+
+        ContentValues service6 = new ContentValues();
+        service6.put("category_id", 3);
+        service6.put("service_name", "Tablet Screen Replacement");
+        service6.put("description", "Replacement of cracked or damaged tablet screen");
+        service6.put("price", 14000.00);
+        service6.put("estimated_days", 3);
+        db.insert("RepairService", null, service6);
 
         db.execSQL("CREATE TABLE Technician (" +
                 "technician_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
