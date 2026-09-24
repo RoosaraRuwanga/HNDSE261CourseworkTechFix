@@ -18,6 +18,8 @@ public class CustomerDashboardActivity extends AppCompatActivity {
     Button btnRepairHistory;
     Button btnLogout;
 
+    int userId = getIntent().getIntExtra("user_id", -1);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,14 +66,12 @@ public class CustomerDashboardActivity extends AppCompatActivity {
         // --------------------------------
 
         btnServices.setOnClickListener(v -> {
-
             Intent intent = new Intent(
                     CustomerDashboardActivity.this,
                     ServicesActivity.class
             );
-
+            intent.putExtra("user_id", userId);
             startActivity(intent);
-
         });
 
 

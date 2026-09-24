@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.EditText;  //Thevan Added this
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -28,9 +29,10 @@ public class ServicesActivity extends AppCompatActivity {
 
     Spinner spinnerServices;
     Spinner spinnerBranch;
-
     ImageView imgService;
 
+    EditText editDeviceModel;
+    int userId;
     TextView tvServiceTitle;
     TextView tvServiceDescription;
 
@@ -104,27 +106,30 @@ public class ServicesActivity extends AppCompatActivity {
         btnRequestService = findViewById(R.id.btnRequestService);
         btnServicesBack = findViewById(R.id.btnServicesBack);
 
+        editDeviceModel = findViewById(R.id.editDeviceModel); //Newly added 2 lines
+        userId = getIntent().getIntExtra("user_id", -1);
+
         databaseHelper = new DatabaseHelper(this);
 
 
         // -----------------------------------------------------
         // BACK BUTTON
         // -----------------------------------------------------
-
         btnServicesBack.setOnClickListener(v -> finish());
-
 
         // -----------------------------------------------------
         // LOAD SERVICES
         // -----------------------------------------------------
-
         loadServices();
 
+        // -----------------------------------------------------
+        // REQUEST SERVICES, NEWLY ADDED
+        // -----------------------------------------------------
+        btnRequestService.setOnClickListener(v -> requestService());
 
         // -----------------------------------------------------
         // SERVICE SELECTION
         // -----------------------------------------------------
-
         spinnerServices.setOnItemSelectedListener(
                 new android.widget.AdapterView.OnItemSelectedListener() {
 
@@ -592,54 +597,53 @@ public class ServicesActivity extends AppCompatActivity {
     // REQUEST SERVICE
     // =========================================================
 
-    private void requestService() {
+    private void requestService() { //Newly Added, More Varied Situations and removed the Toast at the end it was also stated in comments that
+        //1. Will connect to Appointments after GPS and UI are done
 
         if (spinnerServices.getSelectedItem() == null) {
-
-            Toast.makeText(
-                    this,
-                    "Please select a service.",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            Toast.makeText(this, "Please select a service.", Toast.LENGTH_SHORT).show();
             return;
         }
-
 
         if (spinnerBranch.getSelectedItem() == null) {
-
-            Toast.makeText(
-                    this,
-                    "Unable to determine your closest branch.",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            Toast.makeText(this, "Unable to determine your closest branch.", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        String deviceModel = editDeviceModel.getText().toString().trim();
 
-        String selectedService =
-                spinnerServices
-                        .getSelectedItem()
-                        .toString();
+        if (deviceModel.isEmpty()) {
+            Toast.makeText(this, "Please enter your device model.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        String selectedBranch =
-                spinnerBranch
-                        .getSelectedItem()
-                        .toString();
+        if (userId == -1) {
+            Toast.makeText(this, "You must be logged in to request a service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        // Map the selected spinner position back to the real database IDs
+        int selectedServiceId = serviceIds.get(spinnerServices.getSelectedItemPosition());
+        int selectedBranchId = branchIds.get(spinnerBranch.getSelectedItemPosition());
 
-        Toast.makeText(
-                this,
-                "Service: "
-                        + selectedService
-                        + "\nBranch: "
-                        + selectedBranch,
-                Toast.LENGTH_LONG
-        ).show();
+        String appointmentDate = new java.text.SimpleDateFormat(
+                "yyyy-MM-dd HH:mm", java.util.Locale.getDefault())
+                .format(new java.util.Date());
 
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-        // We will connect this to Appointment
-        // after the GPS and UI are working correctly.
+        long result = databaseHelper.insertAppointment(
+                db, userId, selectedBranchId, selectedServiceId,
+                deviceModel, "", appointmentDate
+        );
+
+        db.close();
+
+        if (result != -1) {
+            Toast.makeText(this, "Service requested successfully!", Toast.LENGTH_LONG).show();
+            editDeviceModel.setText("");
+        } else {
+            Toast.makeText(this, "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
